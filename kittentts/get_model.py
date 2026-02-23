@@ -7,7 +7,7 @@ from .onnx_model import KittenTTS_1_Onnx
 class KittenTTS:
     """Main KittenTTS class for text-to-speech synthesis."""
     
-    def __init__(self, model_name="KittenML/kitten-tts-nano-0.1", cache_dir=None):
+    def __init__(self, model_name="KittenML/kitten-tts-nano-0.8", cache_dir=None):
         """Initialize KittenTTS with a model from Hugging Face.
         
         Args:
@@ -23,7 +23,7 @@ class KittenTTS:
             
         self.model = download_from_huggingface(repo_id=repo_id, cache_dir=cache_dir)
     
-    def generate(self, text, voice="expr-voice-5-m", speed=1.0):
+    def generate(self, text, voice="expr-voice-5-m", speed=1.0, clean_text=False):
         """Generate audio from text.
         
         Args:
@@ -34,7 +34,8 @@ class KittenTTS:
         Returns:
             Audio data as numpy array
         """
-        return self.model.generate(text, voice=voice, speed=speed)
+        print(f"Generating audio for text: {text}")
+        return self.model.generate(text, voice=voice, speed=speed, clean_text=clean_text)
     
     def generate_to_file(self, text, output_path, voice="expr-voice-5-m", speed=1.0, sample_rate=24000):
         """Generate audio from text and save to file.
@@ -51,7 +52,7 @@ class KittenTTS:
     @property
     def available_voices(self):
         """Get list of available voices."""
-        return self.model.available_voices
+        return self.model.all_voice_names
 
 
 def download_from_huggingface(repo_id="KittenML/kitten-tts-nano-0.1", cache_dir=None):

@@ -100,9 +100,10 @@ class KittenTTS_1_Onnx:
             'expr-voice-2-m', 'expr-voice-2-f', 'expr-voice-3-m', 'expr-voice-3-f', 
             'expr-voice-4-m', 'expr-voice-4-f', 'expr-voice-5-m', 'expr-voice-5-f'
         ]
+        self.all_voice_names = ['Bella', 'Jasper', 'Luna', 'Bruno', 'Rosie', 'Hugo', 'Kiki', 'Leo']
         self.voice_aliases = voice_aliases
 
-        self.preprocessor = TextPreprocessor()
+        self.preprocessor = TextPreprocessor(remove_punctuation=False)
     
     def _prepare_inputs(self, text: str, voice: str, speed: float = 1.0) -> dict:
         """Prepare ONNX model inputs from text and voice parameters."""
@@ -125,6 +126,7 @@ class KittenTTS_1_Onnx:
         
         # Add start and end tokens
         tokens.insert(0, 0)
+        tokens.append(10)
         tokens.append(0)
         
         input_ids = np.array([tokens], dtype=np.int64)

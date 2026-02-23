@@ -149,7 +149,7 @@ _RE_EMAIL    = re.compile(r"\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b", re.IGNORECASE)
 _RE_HASHTAG  = re.compile(r"#\w+")
 _RE_MENTION  = re.compile(r"@\w+")
 _RE_HTML     = re.compile(r"<[^>]+>")
-_RE_PUNCT    = re.compile(r"[^\w\s]")
+_RE_PUNCT    = re.compile(r"[^\w\s.,?!;:\-\u2014\u2013\u2026]")
 _RE_SPACES   = re.compile(r"\s+")
 
 # Number: do NOT match a leading minus if it is immediately preceded by a letter
@@ -646,7 +646,7 @@ def remove_mentions(text: str, replacement: str = "") -> str:
 
 
 def remove_punctuation(text: str) -> str:
-    """Remove all punctuation characters."""
+    """Remove non-prosodic punctuation, keeping marks that affect speech rhythm and intonation."""
     return _RE_PUNCT.sub(" ", text)
 
 
